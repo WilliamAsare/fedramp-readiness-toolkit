@@ -1,0 +1,63 @@
+site_name: FedRAMP Readiness Assessment Toolkit
+site_url: https://williamasare.github.io/fedramp-readiness-toolkit/
+repo_url: https://github.com/WilliamAsare/fedramp-readiness-toolkit
+repo_name: WilliamAsare/fedramp-readiness-toolkit
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - FedRAMP Overview: fedramp-overview.md
+  - Architecture: architecture.md
+  - OSCAL Guide: oscal-guide.md
+  - Guides:
+    - Gap Analysis: guides/gap-analysis.md
+    - SSP Development: guides/ssp-development.md
+    - Evidence Collection: guides/evidence-collection.md
+    - Continuous Monitoring: guides/continuous-monitoring.md
+  - Checklists:
+    - Pre-Engagement: checklists/pre-engagement-checklist.md
+    - FIPS 199 Categorization: checklists/fips199-categorization.md
+    - Federal Mandates: checklists/federal-mandates-checklist.md
+    - Boundary Definition: checklists/boundary-definition.md
+    - Low Baseline: checklists/low-baseline-checklist.md
+    - Moderate Baseline: checklists/moderate-baseline-checklist.md
+    - High Baseline: checklists/high-baseline-checklist.md
+    - 3PAO Selection: checklists/3pao-selection-guide.md
+    - Monthly ConMon: checklists/conmon-monthly-checklist.md
+    - FedRAMP 20x Readiness: checklists/fedramp-20x-readiness.md
+  - ADRs:
+    - OSCAL-First Design: adr/0001-oscal-first-design.md
+  - Changelog: changelog.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true

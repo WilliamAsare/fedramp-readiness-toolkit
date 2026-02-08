@@ -13,7 +13,7 @@ python3 --version  # needs 3.10+
 ## Installation
 
 ```bash
-git clone https://github.com/your-org/fedramp-readiness-toolkit.git
+git clone https://github.com/WilliamAsare/fedramp-readiness-toolkit.git
 cd fedramp-readiness-toolkit
 
 python -m venv .venv

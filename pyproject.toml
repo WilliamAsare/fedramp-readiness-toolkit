@@ -10,7 +10,7 @@ readme = "README.md"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.10"
 authors = [
-    {name = "Your Organization", email = "security@your-org.com"},
+    {name = "Your Organization", email = "security@WilliamAsare.com"},
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
