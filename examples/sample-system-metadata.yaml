@@ -1,0 +1,93 @@
+# Sample System Metadata for SSP Generation
+# Use with: python scripts/ssp_generator.py --metadata examples/sample-system-metadata.yaml --baseline moderate --output ssp.json
+
+system:
+  name: "CloudWidget Enterprise"
+  abbreviation: "CWE"
+  version: "2.1"
+  fips199_level: moderate
+  authorization_type: agency
+  description: >
+    CloudWidget Enterprise is a SaaS platform that provides federal agencies
+    with project management and document collaboration capabilities. The system
+    processes CUI and PII for authorized agency personnel.
+
+boundary:
+  description: >
+    The authorization boundary encompasses the CloudWidget web application,
+    API services, and data storage components deployed within AWS GovCloud
+    (us-gov-west-1). The boundary includes all compute, storage, networking,
+    and monitoring components managed by CloudWidget Inc. Components inherited
+    from AWS GovCloud's FedRAMP High P-ATO are documented but excluded from
+    the CSP assessment scope.
+
+  components:
+    - name: "Web Application"
+      type: software
+      description: "React single-page application served via Amazon CloudFront with WAF"
+
+    - name: "API Service"
+      type: software
+      description: "Python FastAPI application running on Amazon ECS Fargate"
+
+    - name: "PostgreSQL Database"
+      type: software
+      description: "Amazon RDS PostgreSQL 15 with encryption at rest via KMS"
+
+    - name: "Object Storage"
+      type: software
+      description: "Amazon S3 with server-side encryption (SSE-KMS) for document storage"
+
+    - name: "Identity Provider"
+      type: software
+      description: "Amazon Cognito with SAML 2.0 federation for agency IdP integration"
+
+    - name: "Monitoring Stack"
+      type: software
+      description: "CloudWatch, GuardDuty, and CloudTrail for logging and monitoring"
+
+  external_services:
+    - name: "AWS GovCloud"
+      fedramp_authorized: true
+      authorization_id: "F1234567890"
+      impact_level: high
+
+    - name: "SendGrid"
+      fedramp_authorized: true
+      purpose: "Transactional email delivery"
+
+responsible_parties:
+  system_owner:
+    name: "Jane Smith"
+    title: "Chief Information Security Officer"
+    email: "jane.smith@cloudwidget.example.com"
+    phone: "555-0100"
+
+  authorizing_official:
+    name: "Federal Agency AO"
+    organization: "Department of Example"
+    email: "ao@agency.example.gov"
+
+  isso:
+    name: "Bob Johnson"
+    title: "Information System Security Officer"
+    email: "bob.johnson@cloudwidget.example.com"
+
+network:
+  data_flow_description: >
+    Data enters the system via HTTPS (TLS 1.2+) through CloudFront CDN
+    with AWS WAF. Requests are routed to the API service running on ECS
+    Fargate within a private VPC subnet. The API accesses RDS PostgreSQL
+    and S3 for data persistence. All internal traffic uses TLS. CloudTrail
+    and VPC Flow Logs capture network activity.
+
+  ports_and_protocols:
+    - port: 443
+      protocol: HTTPS
+      direction: inbound
+      purpose: "Web application and API access"
+
+    - port: 5432
+      protocol: PostgreSQL
+      direction: internal
+      purpose: "Database access (private subnet only)"

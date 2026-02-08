@@ -1,0 +1,61 @@
+# Cloud Provider API Configuration
+# Copy this file to cloud-api-config.yaml and fill in your values.
+# NEVER commit the actual config file with credentials to version control.
+#
+# Recommended: Use environment variables instead of hardcoding credentials.
+# The toolkit reads from env vars first, then falls back to this file.
+
+cloud_provider: aws  # Options: aws, azure, gcp
+
+aws:
+  # Option 1: Use AWS CLI profile (recommended)
+  profile: "fedramp-toolkit"
+  region: "us-gov-west-1"  # GovCloud region for FedRAMP High
+
+  # Option 2: Explicit credentials (use env vars instead)
+  # access_key_id: ${AWS_ACCESS_KEY_ID}
+  # secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+  # session_token: ${AWS_SESSION_TOKEN}
+
+  # Services to query for evidence collection
+  services:
+    security_hub: true
+    config: true
+    inspector: true
+    cloudtrail: true
+    guardduty: true
+
+azure:
+  # Option 1: Use Azure CLI authentication (recommended)
+  use_cli_auth: true
+  subscription_id: "your-subscription-id"
+  tenant_id: "your-tenant-id"
+
+  # Option 2: Service principal
+  # client_id: ${AZURE_CLIENT_ID}
+  # client_secret: ${AZURE_CLIENT_SECRET}
+
+  services:
+    defender: true
+    policy: true
+    monitor: true
+
+gcp:
+  # Option 1: Use gcloud CLI authentication (recommended)
+  use_application_default: true
+  project_id: "your-project-id"
+
+  # Option 2: Service account key file
+  # credentials_file: "/path/to/service-account-key.json"
+
+  services:
+    security_command_center: true
+    asset_inventory: true
+    cloud_logging: true
+
+# Evidence collection settings
+evidence:
+  output_dir: "evidence"
+  timestamp_format: "%Y-%m-%d"
+  hash_algorithm: "sha256"
+  retention_days: 365

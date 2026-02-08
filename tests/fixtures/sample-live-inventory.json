@@ -1,0 +1,40 @@
+{
+  "inventory": [
+    {
+      "resource_id": "i-0abc123def456",
+      "resource_type": "EC2",
+      "name": "web-server-1",
+      "state": "running",
+      "instance_type": "t3.medium"
+    },
+    {
+      "resource_id": "i-0def789ghi012",
+      "resource_type": "EC2",
+      "name": "api-server-1",
+      "state": "running",
+      "instance_type": "t3.large"
+    },
+    {
+      "resource_id": "myapp-db-prod",
+      "resource_type": "RDS",
+      "name": "myapp-db-prod",
+      "engine": "postgresql"
+    },
+    {
+      "resource_id": "myapp-assets-prod",
+      "resource_type": "S3",
+      "name": "myapp-assets-prod"
+    },
+    {
+      "resource_id": "i-0new111undocumented",
+      "resource_type": "EC2",
+      "name": "new-worker-node",
+      "state": "running"
+    },
+    {
+      "resource_id": "myapp-logs-prod",
+      "resource_type": "S3",
+      "name": "myapp-logs-prod"
+    }
+  ]
+}

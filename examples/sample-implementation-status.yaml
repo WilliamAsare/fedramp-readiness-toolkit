@@ -1,0 +1,479 @@
+# Sample Implementation Status for FedRAMP Moderate Gap Analysis
+#
+# This file represents a fictional SaaS company that has:
+# - Good access control and encryption practices
+# - Some audit logging in place but incomplete
+# - No formal incident response plan yet
+# - Building on AWS GovCloud (inherits PE/MP/MA controls)
+#
+# Use this with:
+#   python scripts/gap_analysis.py --baseline moderate --input examples/sample-implementation-status.yaml
+#
+# Status values:
+#   implemented      - Fully implemented and operational
+#   partial          - Partially implemented or in progress
+#   planned          - Planned but not yet implemented
+#   not_implemented  - Not implemented and not planned
+#   inherited        - Inherited from FedRAMP-authorized provider
+#   na               - Not applicable (with documented justification)
+
+controls:
+
+  # --- Access Control (AC) ---
+  AC-1:
+    status: implemented
+    notes: "Access control policy v3.2 approved by CISO, reviewed annually."
+  AC-2:
+    status: partial
+    notes: "AWS IAM account provisioning automated. Deprovisioning still manual for some service accounts."
+  AC-2(1):
+    status: implemented
+    notes: "AWS Config rule monitors for automated account management."
+  AC-2(2):
+    status: implemented
+    notes: "Temporary accounts auto-expire via IAM policy."
+  AC-2(3):
+    status: partial
+    notes: "Inactive account disabling at 90 days. FedRAMP requires 35 days."
+  AC-2(4):
+    status: implemented
+    notes: "CloudTrail logs all account management actions."
+  AC-2(5):
+    status: planned
+    notes: "Session timeout policy drafted, deployment in sprint 34."
+  AC-3:
+    status: implemented
+    notes: "RBAC enforced via IAM policies and resource-based policies."
+  AC-4:
+    status: partial
+    notes: "VPC flow logs enabled. Need to implement stricter inter-subnet flow controls."
+  AC-5:
+    status: implemented
+    notes: "Separation of duties matrix documented. No single person can deploy to prod and approve."
+  AC-6:
+    status: implemented
+    notes: "Least privilege enforced via custom IAM policies. Quarterly access reviews."
+  AC-6(1):
+    status: implemented
+    notes: "Privileged access requires break-glass procedure."
+  AC-6(2):
+    status: implemented
+    notes: "Non-privileged access for security functions."
+  AC-6(5):
+    status: implemented
+    notes: "Privileged accounts restricted to separate IAM roles."
+  AC-6(9):
+    status: partial
+    notes: "Logging of privileged functions in place. Alerting not complete."
+  AC-6(10):
+    status: implemented
+    notes: "Non-privileged users cannot disable security functions."
+  AC-7:
+    status: implemented
+    notes: "Account lockout after 3 failed attempts via Cognito."
+  AC-8:
+    status: implemented
+    notes: "System use notification banner on all login pages."
+  AC-11:
+    status: partial
+    notes: "Session lock at 15 min for web UI. API sessions don't have idle timeout yet."
+  AC-12:
+    status: implemented
+    notes: "Session termination on logout and after 12 hours max."
+  AC-14:
+    status: implemented
+    notes: "No actions permitted without authentication."
+  AC-17:
+    status: implemented
+    notes: "All remote access via VPN with MFA."
+  AC-17(1):
+    status: implemented
+    notes: "Remote access monitored and controlled via AWS Systems Manager."
+  AC-17(2):
+    status: implemented
+    notes: "Remote access encrypted with FIPS-validated TLS."
+  AC-17(4):
+    status: implemented
+    notes: "Privileged commands over remote access require additional auth."
+  AC-18:
+    status: inherited
+    notes: "No wireless access — cloud-only infrastructure."
+  AC-19:
+    status: planned
+    notes: "MDM solution selection in progress."
+  AC-20:
+    status: partial
+    notes: "External system usage policy exists. Technical controls incomplete."
+  AC-22:
+    status: implemented
+    notes: "Public content review process with CISO approval required."
+
+  # --- Audit and Accountability (AU) ---
+  AU-1:
+    status: implemented
+    notes: "Audit policy v2.1 published."
+  AU-2:
+    status: partial
+    notes: "CloudTrail captures infra events. Application-level audit events partially defined."
+  AU-3:
+    status: partial
+    notes: "Infra logs have required content. App logs missing some fields."
+  AU-3(1):
+    status: planned
+    notes: "Additional audit fields to be added in next release."
+  AU-4:
+    status: implemented
+    notes: "S3 log bucket with lifecycle policy. 365-day retention."
+  AU-5:
+    status: partial
+    notes: "CloudWatch alarm on CloudTrail failure. No fallback for app logging failures."
+  AU-6:
+    status: not_implemented
+    notes: "No formal log review process. Ad-hoc review only."
+  AU-6(1):
+    status: not_implemented
+    notes: "No automated audit review mechanism."
+  AU-7:
+    status: implemented
+    notes: "Athena queries for log search and reduction."
+  AU-7(1):
+    status: implemented
+    notes: "Athena supports sort/search across all log sources."
+  AU-8:
+    status: inherited
+    notes: "AWS NTP time synchronization."
+  AU-9:
+    status: implemented
+    notes: "Log bucket with versioning, MFA delete, and restricted access."
+  AU-11:
+    status: implemented
+    notes: "Logs retained for 365 days in S3, 90 days in CloudWatch."
+  AU-12:
+    status: partial
+    notes: "Audit generation for most components. Container logs incomplete."
+
+  # --- Configuration Management (CM) ---
+  CM-1:
+    status: implemented
+    notes: "CM policy v2.0 approved."
+  CM-2:
+    status: implemented
+    notes: "Baseline configuration defined via Terraform. Golden AMIs maintained."
+  CM-2(1):
+    status: implemented
+    notes: "Annual baseline review completed."
+  CM-3:
+    status: implemented
+    notes: "All changes go through PR review and CI/CD pipeline."
+  CM-3(2):
+    status: implemented
+    notes: "Changes tested in staging before production."
+  CM-4:
+    status: implemented
+    notes: "Security impact analysis required for all change requests."
+  CM-5:
+    status: implemented
+    notes: "Git branch protection and code review required for all merges."
+  CM-6:
+    status: partial
+    notes: "CIS benchmarks applied to EC2. RDS and Lambda configs not fully aligned."
+  CM-7:
+    status: partial
+    notes: "Minimal services on EC2. Need to audit Lambda functions for least functionality."
+  CM-7(1):
+    status: partial
+    notes: "Periodic review exists but not at FedRAMP-required frequency."
+  CM-8:
+    status: partial
+    notes: "AWS Config tracks resources. Some SaaS components not in inventory."
+  CM-8(1):
+    status: planned
+    notes: "Automated inventory updates planned via AWS Config integration."
+  CM-10:
+    status: implemented
+    notes: "Software usage restrictions documented."
+  CM-11:
+    status: implemented
+    notes: "User-installed software prohibited on production systems."
+
+  # --- Identification and Authentication (IA) ---
+  IA-1:
+    status: implemented
+    notes: "IA policy v1.5 approved."
+  IA-2:
+    status: implemented
+    notes: "All users authenticate via Cognito with MFA."
+  IA-2(1):
+    status: implemented
+    notes: "MFA required for privileged accounts."
+  IA-2(2):
+    status: implemented
+    notes: "MFA required for non-privileged accounts."
+  IA-2(12):
+    status: planned
+    notes: "PIV/CAC integration planned for Q3. SAML federation design complete."
+  IA-3:
+    status: partial
+    notes: "Device certificates for API access. Not all endpoints covered."
+  IA-4:
+    status: implemented
+    notes: "Unique identifiers assigned and managed in IAM."
+  IA-5:
+    status: implemented
+    notes: "Password complexity and rotation enforced."
+  IA-5(1):
+    status: implemented
+    notes: "Password-based authentication with 12+ char minimum."
+  IA-6:
+    status: inherited
+    notes: "AWS handles authentication feedback obscuring."
+  IA-7:
+    status: inherited
+    notes: "AWS FIPS 140-2 validated crypto modules."
+  IA-8:
+    status: planned
+    notes: "Non-organizational user (agency) authentication via SAML planned."
+
+  # --- Incident Response (IR) ---
+  IR-1:
+    status: not_implemented
+    notes: "IR policy drafted but not approved."
+  IR-2:
+    status: not_implemented
+    notes: "No formal IR training program."
+  IR-3:
+    status: not_implemented
+    notes: "No IR testing conducted."
+  IR-4:
+    status: partial
+    notes: "Ad-hoc incident handling. No formal documented procedures."
+  IR-4(1):
+    status: not_implemented
+    notes: "No automated incident handling tools."
+  IR-5:
+    status: not_implemented
+    notes: "No formal incident monitoring."
+  IR-6:
+    status: not_implemented
+    notes: "No US-CERT reporting procedures documented."
+  IR-6(1):
+    status: not_implemented
+    notes: "No automated IR reporting."
+  IR-7:
+    status: not_implemented
+    notes: "No IR assistance capability."
+  IR-7(1):
+    status: not_implemented
+    notes: "No automated IR support."
+  IR-8:
+    status: not_implemented
+    notes: "No IR plan document."
+
+  # --- System and Communications Protection (SC) ---
+  SC-1:
+    status: implemented
+    notes: "SC policy v2.0 approved."
+  SC-5:
+    status: implemented
+    notes: "AWS Shield Standard active. CloudFront with WAF for DDoS."
+  SC-7:
+    status: implemented
+    notes: "VPC security groups and NACLs configured. Bastion host for admin."
+  SC-7(3):
+    status: implemented
+    notes: "Managed firewall access points."
+  SC-7(4):
+    status: partial
+    notes: "External telecom services identified. Some monitoring gaps."
+  SC-7(5):
+    status: implemented
+    notes: "Deny-all, permit-by-exception at security group level."
+  SC-7(7):
+    status: implemented
+    notes: "Split tunneling prohibited for VPN."
+  SC-8:
+    status: implemented
+    notes: "TLS 1.2+ enforced on all external connections."
+  SC-8(1):
+    status: implemented
+    notes: "FIPS-validated TLS implementation."
+  SC-12:
+    status: implemented
+    notes: "AWS KMS for key management with customer-managed keys."
+  SC-13:
+    status: implemented
+    notes: "FIPS 140-2 validated modules for all cryptographic operations."
+  SC-15:
+    status: implemented
+    notes: "Collaborative computing devices restricted."
+  SC-17:
+    status: implemented
+    notes: "PKI certificates from trusted CA."
+  SC-18:
+    status: implemented
+    notes: "Mobile code restricted."
+  SC-20:
+    status: partial
+    notes: "DNSSEC signed for primary zone. Subdomains not yet signed."
+  SC-21:
+    status: implemented
+    notes: "DNSSEC validation enabled on resolvers."
+  SC-22:
+    status: implemented
+    notes: "DNS architecture uses fault-tolerant Route 53."
+  SC-28:
+    status: implemented
+    notes: "AES-256 encryption at rest for all data stores via KMS."
+  SC-28(1):
+    status: implemented
+    notes: "Cryptographic protection of stored data."
+
+  # --- System and Information Integrity (SI) ---
+  SI-1:
+    status: implemented
+    notes: "SI policy v1.8 approved."
+  SI-2:
+    status: partial
+    notes: "Monthly patching cycle. Not meeting 30-day high vuln SLA consistently."
+  SI-2(2):
+    status: partial
+    notes: "Automated patch status monitoring via SSM. Remediation not automated."
+  SI-3:
+    status: implemented
+    notes: "GuardDuty enabled across all accounts. Container scanning with Trivy."
+  SI-3(1):
+    status: implemented
+    notes: "Automatic malware scanning updates."
+  SI-3(2):
+    status: implemented
+    notes: "Automatic malware scanning of downloads."
+  SI-4:
+    status: partial
+    notes: "GuardDuty and CloudWatch configured. SIEM integration incomplete."
+  SI-4(2):
+    status: planned
+    notes: "Real-time alerting for critical events planned."
+  SI-4(4):
+    status: partial
+    notes: "Inbound/outbound monitoring via VPC flow logs. Analysis not automated."
+  SI-4(5):
+    status: not_implemented
+    notes: "No automated system-generated alerts for compromise indicators."
+  SI-5:
+    status: partial
+    notes: "AWS security bulletins monitored. No formal process for distributing to staff."
+  SI-12:
+    status: implemented
+    notes: "Information handling aligned with FIPS 199 categorization."
+
+  # --- Physical and Environmental (PE) — Inherited from AWS ---
+  PE-1:
+    status: inherited
+    notes: "AWS GovCloud data center physical security."
+  PE-2:
+    status: inherited
+  PE-3:
+    status: inherited
+  PE-6:
+    status: inherited
+  PE-8:
+    status: inherited
+  PE-10:
+    status: inherited
+  PE-11:
+    status: inherited
+  PE-12:
+    status: inherited
+  PE-13:
+    status: inherited
+  PE-14:
+    status: inherited
+  PE-15:
+    status: inherited
+  PE-16:
+    status: inherited
+  PE-17:
+    status: inherited
+
+  # --- Contingency Planning (CP) ---
+  CP-1:
+    status: partial
+    notes: "CP policy exists but needs revision for FedRAMP parameters."
+  CP-2:
+    status: partial
+    notes: "Contingency plan drafted. Recovery procedures not fully documented."
+  CP-3:
+    status: not_implemented
+    notes: "No CP training conducted."
+  CP-4:
+    status: not_implemented
+    notes: "No CP testing done."
+  CP-6:
+    status: implemented
+    notes: "Cross-region S3 replication for backup data."
+  CP-7:
+    status: implemented
+    notes: "Multi-AZ deployment with auto-scaling."
+  CP-8:
+    status: inherited
+    notes: "AWS backbone provides telecommunications."
+  CP-9:
+    status: implemented
+    notes: "Daily automated backups via AWS Backup."
+  CP-10:
+    status: partial
+    notes: "Recovery procedures tested informally. Need formal test documentation."
+
+  # --- Risk Assessment (RA) ---
+  RA-1:
+    status: implemented
+    notes: "RA policy approved."
+  RA-2:
+    status: implemented
+    notes: "FIPS 199 categorization completed as Moderate."
+  RA-3:
+    status: partial
+    notes: "Risk assessment performed but not in FedRAMP format."
+  RA-5:
+    status: partial
+    notes: "Monthly Nessus scans running. Not all scan types covered (missing web app, database)."
+  RA-5(2):
+    status: partial
+    notes: "Updating scan tools before each scan. Frequency not consistent."
+  RA-5(5):
+    status: implemented
+    notes: "Privileged access for vulnerability scanning."
+
+  # --- Awareness and Training (AT) ---
+  AT-1:
+    status: implemented
+    notes: "Training policy approved."
+  AT-2:
+    status: partial
+    notes: "Annual security awareness done. Phishing simulation not in place."
+  AT-2(2):
+    status: not_implemented
+    notes: "No insider threat awareness training."
+  AT-3:
+    status: partial
+    notes: "Role-based training for admins. Privacy training not implemented."
+  AT-4:
+    status: partial
+    notes: "Training records exist but not centralized."
+
+  # --- Supply Chain (SR) ---
+  SR-1:
+    status: partial
+    notes: "Supply chain policy drafted. Not formally approved."
+  SR-2:
+    status: not_implemented
+    notes: "No supply chain risk plan."
+  SR-3:
+    status: partial
+    notes: "Third-party dependency scanning via Snyk. No formal supply chain controls."
+  SR-5:
+    status: not_implemented
+    notes: "No formal acquisition strategies for supply chain."
+  SR-11:
+    status: partial
+    notes: "SBOM generated for main application. Not all components covered."

@@ -1,0 +1,37 @@
+name: Lint & Format
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Code Quality
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]"
+
+      - name: Check formatting with black
+        run: |
+          black --check scripts/ tests/
+
+      - name: Lint with ruff
+        run: |
+          ruff check scripts/ tests/
+
+      - name: Type check with mypy
+        run: |
+          mypy scripts/ --ignore-missing-imports || true

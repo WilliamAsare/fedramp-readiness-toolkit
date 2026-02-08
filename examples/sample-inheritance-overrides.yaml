@@ -1,0 +1,26 @@
+# Custom Inheritance Overrides
+#
+# Use this file to override default inheritance classifications when your
+# deployment differs from the typical SaaS-on-IaaS pattern.
+#
+# Common reasons to override:
+# - You use a managed PaaS service that handles more than typical IaaS
+# - You've implemented something differently than the default assumes
+# - Your 3PAO has a specific interpretation you need to follow
+#
+# Usage:
+#   python scripts/inheritance_mapper.py --baseline moderate --provider aws --custom-overrides overrides.yaml
+
+overrides:
+  # Example: We use AWS Fargate (serverless containers), so we inherit more
+  # configuration management from AWS than a typical EC2 deployment
+  CM-6: inherited    # AWS manages container host configurations
+  CM-7: inherited    # Least functionality handled at container platform level
+
+  # Example: We use a managed database (RDS) with automated backups,
+  # so backup controls are more inherited than shared
+  CP-9: inherited    # RDS automated backups with point-in-time recovery
+
+  # Example: Our 3PAO considers wireless access completely N/A for
+  # a cloud-only SaaS, not just inherited
+  AC-18: na          # No wireless infrastructure exists

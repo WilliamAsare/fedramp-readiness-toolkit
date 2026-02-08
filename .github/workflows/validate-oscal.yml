@@ -1,0 +1,55 @@
+name: Validate OSCAL Documents
+
+on:
+  pull_request:
+    paths:
+      - 'templates/oscal/**'
+      - 'baselines/**'
+      - 'examples/**/*.json'
+  push:
+    branches: [main]
+    paths:
+      - 'templates/oscal/**'
+      - 'baselines/**'
+
+jobs:
+  validate-oscal:
+    runs-on: ubuntu-latest
+    name: FedRAMP OSCAL Validation
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install saxonche
+
+      - name: Download FedRAMP validation rules
+        run: |
+          mkdir -p .validation-rules
+          git clone --depth 1 https://github.com/GSA/fedramp-automation.git .validation-rules/fedramp-automation
+
+      - name: Validate OSCAL templates
+        run: |
+          python scripts/oscal_validator.py \
+            --input-dir templates/oscal/ \
+            --rules-dir .validation-rules/fedramp-automation/src/validations/ \
+            --baseline moderate \
+            --output-format github-actions
+
+      - name: Validate example documents
+        run: |
+          if [ -d "examples/sample-ssp" ]; then
+            python scripts/oscal_validator.py \
+              --input-dir examples/ \
+              --baseline low \
+              --output-format github-actions
+          fi

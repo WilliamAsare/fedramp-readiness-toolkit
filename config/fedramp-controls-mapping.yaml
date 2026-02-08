@@ -1,0 +1,117 @@
+# FedRAMP Control to Cross-Framework Mapping
+# Maps NIST 800-53 Rev 5 control families to equivalent controls in other frameworks.
+# Used to identify reusable evidence from existing SOC 2, ISO 27001, or HIPAA compliance.
+
+cross_framework_mappings:
+
+  AC:  # Access Control
+    soc2_criteria: ["CC6.1", "CC6.2", "CC6.3"]
+    iso27001_controls: ["A.9.1", "A.9.2", "A.9.4"]
+    hipaa_safeguards: ["164.312(a)(1)", "164.312(d)"]
+    cis_controls: ["5", "6"]
+    overlap_percentage: 75
+    notes: "SOC 2 CC6 maps well. FedRAMP adds PIV/CAC and specific parameter values."
+
+  AT:  # Awareness and Training
+    soc2_criteria: ["CC1.4"]
+    iso27001_controls: ["A.7.2.2"]
+    hipaa_safeguards: ["164.308(a)(5)"]
+    cis_controls: ["14"]
+    overlap_percentage: 60
+    notes: "FedRAMP requires role-based training and privacy-specific training (Rev 5)."
+
+  AU:  # Audit and Accountability
+    soc2_criteria: ["CC7.2", "CC7.3"]
+    iso27001_controls: ["A.12.4"]
+    hipaa_safeguards: ["164.312(b)"]
+    cis_controls: ["8"]
+    overlap_percentage: 70
+    notes: "Log content and retention requirements are more specific in FedRAMP."
+
+  CA:  # Assessment, Authorization, and Monitoring
+    soc2_criteria: ["CC4.1", "CC4.2"]
+    iso27001_controls: ["A.18.2"]
+    hipaa_safeguards: ["164.308(a)(8)"]
+    cis_controls: []
+    overlap_percentage: 40
+    notes: "FedRAMP CA controls are largely unique to the federal process."
+
+  CM:  # Configuration Management
+    soc2_criteria: ["CC7.1", "CC8.1"]
+    iso27001_controls: ["A.12.1", "A.12.5", "A.12.6"]
+    hipaa_safeguards: ["164.310(d)(1)"]
+    cis_controls: ["2", "4"]
+    overlap_percentage: 65
+    notes: "DISA STIG and CIS benchmark requirements are FedRAMP-specific adds."
+
+  CP:  # Contingency Planning
+    soc2_criteria: ["A1.2", "A1.3"]
+    iso27001_controls: ["A.17.1", "A.17.2"]
+    hipaa_safeguards: ["164.308(a)(7)"]
+    cis_controls: ["11"]
+    overlap_percentage: 70
+    notes: "Annual CP testing requirement is similar across frameworks."
+
+  IA:  # Identification and Authentication
+    soc2_criteria: ["CC6.1"]
+    iso27001_controls: ["A.9.2", "A.9.4"]
+    hipaa_safeguards: ["164.312(d)"]
+    cis_controls: ["5", "6"]
+    overlap_percentage: 55
+    notes: "PIV/CAC and NIST 800-63 identity levels are FedRAMP-unique."
+
+  IR:  # Incident Response
+    soc2_criteria: ["CC7.3", "CC7.4", "CC7.5"]
+    iso27001_controls: ["A.16.1"]
+    hipaa_safeguards: ["164.308(a)(6)"]
+    cis_controls: ["17"]
+    overlap_percentage: 65
+    notes: "US-CERT reporting timelines are FedRAMP-specific."
+
+  MA:  # Maintenance
+    soc2_criteria: []
+    iso27001_controls: ["A.11.2.4"]
+    hipaa_safeguards: ["164.310(a)(2)(iv)"]
+    cis_controls: []
+    overlap_percentage: 30
+    notes: "Maintenance controls are largely unique to NIST/FedRAMP."
+
+  PE:  # Physical and Environmental Protection
+    soc2_criteria: ["CC6.4"]
+    iso27001_controls: ["A.11.1", "A.11.2"]
+    hipaa_safeguards: ["164.310(a)", "164.310(b)", "164.310(c)"]
+    cis_controls: []
+    overlap_percentage: 60
+    notes: "Often inherited from cloud provider for SaaS/PaaS."
+
+  RA:  # Risk Assessment
+    soc2_criteria: ["CC3.1", "CC3.2"]
+    iso27001_controls: ["A.12.6.1"]
+    hipaa_safeguards: ["164.308(a)(1)(ii)(A)"]
+    cis_controls: ["7"]
+    overlap_percentage: 55
+    notes: "FedRAMP requires specific vuln scanning cadence and tool requirements."
+
+  SC:  # System and Communications Protection
+    soc2_criteria: ["CC6.1", "CC6.6", "CC6.7"]
+    iso27001_controls: ["A.10.1", "A.13.1", "A.13.2"]
+    hipaa_safeguards: ["164.312(a)(2)(iv)", "164.312(e)(1)"]
+    cis_controls: ["3", "12", "13"]
+    overlap_percentage: 50
+    notes: "FIPS 140 validation is a strict FedRAMP requirement with no equivalent."
+
+  SI:  # System and Information Integrity
+    soc2_criteria: ["CC7.1"]
+    iso27001_controls: ["A.12.2", "A.12.6"]
+    hipaa_safeguards: ["164.308(a)(5)(ii)(B)"]
+    cis_controls: ["7", "10"]
+    overlap_percentage: 55
+    notes: "Specific scanning frequencies and remediation SLAs are FedRAMP-unique."
+
+  SR:  # Supply Chain Risk Management (new in Rev 5)
+    soc2_criteria: ["CC9.2"]
+    iso27001_controls: ["A.15.1", "A.15.2"]
+    hipaa_safeguards: ["164.308(b)(1)"]
+    cis_controls: ["15"]
+    overlap_percentage: 40
+    notes: "New family in Rev 5. Limited overlap with existing frameworks."

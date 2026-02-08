@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+test-results.xml
+
+# Linting
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project-specific: never commit real cloud credentials
+config/cloud-api-config.yaml
+
+# Evidence and reports (generated, may contain sensitive data)
+evidence/
+reports/
+
+# OSCAL validation temp files
+.validation-rules/
+
+# SQLite databases (compliance scoring)
+*.db
+*.sqlite3

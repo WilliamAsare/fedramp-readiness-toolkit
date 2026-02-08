@@ -1,0 +1,36 @@
+inventory:
+  - resource_id: i-0abc123def456
+    resource_type: EC2
+    name: web-server-1
+    environment: production
+    boundary: in-boundary
+    owner: platform-team
+
+  - resource_id: i-0def789ghi012
+    resource_type: EC2
+    name: api-server-1
+    environment: production
+    boundary: in-boundary
+    owner: platform-team
+
+  - resource_id: myapp-db-prod
+    resource_type: RDS
+    name: myapp-db-prod
+    engine: postgresql
+    environment: production
+    boundary: in-boundary
+    owner: data-team
+
+  - resource_id: myapp-assets-prod
+    resource_type: S3
+    name: myapp-assets-prod
+    environment: production
+    boundary: in-boundary
+    owner: platform-team
+
+  - resource_id: i-0old999removed
+    resource_type: EC2
+    name: legacy-server
+    environment: production
+    boundary: in-boundary
+    owner: platform-team

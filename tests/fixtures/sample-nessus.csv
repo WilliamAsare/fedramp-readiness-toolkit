@@ -1,0 +1,7 @@
+Plugin ID,CVE,CVSS,Risk,Host,Protocol,Port,Name,Synopsis,Description,Solution,See Also
+12345,CVE-2024-1234,9.8,Critical,10.0.1.5,tcp,443,OpenSSL Remote Code Execution,Remote code execution in OpenSSL,An attacker can exploit this vulnerability to execute arbitrary code.,Update OpenSSL to version 3.1.5 or later.,https://nvd.nist.gov/vuln/detail/CVE-2024-1234
+12346,CVE-2024-5678,7.5,High,10.0.1.5,tcp,443,TLS Certificate Validation Bypass,TLS certificate validation can be bypassed,The remote host accepts self-signed certificates in some configurations.,Update TLS library and enforce strict certificate validation.,https://nvd.nist.gov/vuln/detail/CVE-2024-5678
+12347,CVE-2024-9999,5.3,Medium,10.0.1.10,tcp,22,SSH Protocol Version Detection,SSH server supports older protocol versions,The SSH server allows connections using protocol version 1.99.,Disable SSH protocol version 1 support.,https://nvd.nist.gov/vuln/detail/CVE-2024-9999
+12348,,4.0,Medium,10.0.1.10,tcp,80,Web Server Information Disclosure,Web server reveals version information,The web server includes version information in HTTP response headers.,Configure the web server to suppress version information.,
+12349,CVE-2023-8888,2.1,Low,10.0.1.15,tcp,3306,MySQL Information Schema Access,MySQL information schema accessible,Non-privileged users can access the information_schema database.,Review database user permissions and restrict access.,
+12350,,0.0,None,10.0.1.5,tcp,443,TLS Certificate Information,TLS certificate details collected,This is an informational finding about the TLS certificate.,N/A,

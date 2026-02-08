@@ -1,0 +1,38 @@
+control_id,status,notes
+AC-1,implemented,Access control policy v3.2 approved
+AC-2,partial,MFA deployed; deprovisioning still manual
+AC-3,implemented,RBAC enforced via IAM policies
+AC-5,implemented,Separation of duties matrix documented
+AC-6,implemented,Least privilege with quarterly reviews
+AC-7,implemented,Account lockout after 3 failed attempts
+AC-8,implemented,System use notification on all login pages
+AC-11,partial,Session lock at 15 min for web UI; API sessions missing
+AC-17,implemented,Remote access via VPN with MFA
+AU-1,implemented,Audit policy published
+AU-2,partial,CloudTrail captures infra events; app events incomplete
+AU-6,not_implemented,No formal log review process
+AU-8,inherited,AWS NTP time synchronization
+AU-9,implemented,Log bucket with versioning and MFA delete
+CM-1,implemented,CM policy approved
+CM-2,implemented,Baseline config via Terraform
+CM-3,implemented,All changes through PR review
+CM-8,partial,AWS Config tracks resources; some SaaS components missing
+IA-1,implemented,IA policy approved
+IA-2,implemented,All users authenticate via Cognito with MFA
+IA-5,implemented,Password complexity and rotation enforced
+IA-8,planned,Non-org user auth via SAML planned
+IR-1,not_implemented,IR policy drafted but not approved
+IR-2,not_implemented,No formal IR training
+IR-4,partial,Ad-hoc incident handling only
+IR-8,not_implemented,No IR plan document
+PE-1,inherited,AWS GovCloud data center
+PE-2,inherited,AWS physical access
+PE-3,inherited,AWS physical access control
+SC-1,implemented,SC policy approved
+SC-7,implemented,VPC security groups and NACLs configured
+SC-8,implemented,TLS 1.2+ enforced on all connections
+SC-13,implemented,FIPS 140-2 validated modules
+SC-28,implemented,AES-256 encryption at rest via KMS
+SI-1,implemented,SI policy approved
+SI-2,partial,Monthly patching; not meeting 30-day SLA consistently
+SI-4,partial,GuardDuty configured; SIEM integration incomplete

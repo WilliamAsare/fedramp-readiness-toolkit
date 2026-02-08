@@ -1,0 +1,130 @@
+# Evidence Requirements per Control Family
+# Maps FedRAMP control families to the types of evidence needed for assessment.
+# Used by evidence_collector.py to know what to gather from cloud provider APIs.
+
+evidence_requirements:
+
+  AC:  # Access Control
+    description: "Access Control policies, user/role inventories, MFA configurations"
+    evidence_types:
+      - type: "iam_user_listing"
+        description: "Complete listing of all IAM users with roles and permissions"
+        aws_api: "iam:ListUsers, iam:ListUserPolicies, iam:ListAttachedUserPolicies"
+        azure_api: "Microsoft.Authorization/roleAssignments"
+        gcp_api: "cloudresourcemanager.projects.getIamPolicy"
+      - type: "mfa_status"
+        description: "MFA enforcement status for all user accounts"
+        aws_api: "iam:ListMFADevices, iam:GetAccountSummary"
+        azure_api: "Microsoft.Graph/users (authenticationMethods)"
+        gcp_api: "admin.googleapis.com/users"
+      - type: "access_control_policy"
+        description: "Access control policy document"
+        manual: true
+      - type: "account_management_procedures"
+        description: "Account provisioning and deprovisioning procedures"
+        manual: true
+
+  AU:  # Audit and Accountability
+    description: "Audit logging configurations, log retention, log review procedures"
+    evidence_types:
+      - type: "audit_logging_config"
+        description: "Audit logging service configuration and status"
+        aws_api: "cloudtrail:DescribeTrails, cloudtrail:GetTrailStatus"
+        azure_api: "Microsoft.Insights/diagnosticSettings"
+        gcp_api: "logging.googleapis.com/sinks"
+      - type: "log_retention_settings"
+        description: "Log storage and retention period configuration"
+        aws_api: "logs:DescribeLogGroups (retentionInDays)"
+        azure_api: "Microsoft.OperationalInsights/workspaces"
+        gcp_api: "logging.googleapis.com/buckets"
+
+  CM:  # Configuration Management
+    description: "Baseline configurations, change management, software inventory"
+    evidence_types:
+      - type: "config_baseline"
+        description: "System configuration baseline documentation"
+        aws_api: "config:DescribeConfigRules, config:GetComplianceDetailsByConfigRule"
+        azure_api: "Microsoft.GuestConfiguration/guestConfigurationAssignments"
+        gcp_api: "securitycenter.googleapis.com/findings"
+      - type: "software_inventory"
+        description: "Approved software inventory and version tracking"
+        aws_api: "ssm:DescribeInstanceInformation, ssm:ListInventoryEntries"
+        azure_api: "Microsoft.Compute/virtualMachines"
+        gcp_api: "compute.googleapis.com/instances"
+
+  IA:  # Identification and Authentication
+    description: "Authentication mechanisms, password policies, PIV/CAC support"
+    evidence_types:
+      - type: "password_policy"
+        description: "Password complexity and rotation policy configuration"
+        aws_api: "iam:GetAccountPasswordPolicy"
+        azure_api: "Microsoft.Graph/policies/authenticationMethodsPolicy"
+        gcp_api: "admin.googleapis.com/customers (passwordPolicy)"
+      - type: "piv_cac_configuration"
+        description: "PIV/CAC certificate-based authentication configuration"
+        manual: true
+        notes: "Must demonstrate SAML/OIDC federation with agency IdPs"
+
+  IR:  # Incident Response
+    description: "Incident response plan, contact information, test results"
+    evidence_types:
+      - type: "incident_response_plan"
+        description: "Current incident response plan document"
+        manual: true
+      - type: "ir_test_results"
+        description: "Most recent incident response plan test/exercise results"
+        manual: true
+      - type: "ir_contacts"
+        description: "Incident response team contact information"
+        manual: true
+
+  SC:  # System and Communications Protection
+    description: "Encryption configs, network segmentation, boundary protection"
+    evidence_types:
+      - type: "encryption_at_rest"
+        description: "Data-at-rest encryption configuration for all storage"
+        aws_api: "s3:GetBucketEncryption, rds:DescribeDBInstances, ebs:DescribeVolumes"
+        azure_api: "Microsoft.Storage/storageAccounts, Microsoft.Sql/servers"
+        gcp_api: "storage.googleapis.com/buckets, sqladmin.googleapis.com/instances"
+      - type: "encryption_in_transit"
+        description: "TLS/SSL configuration for all data-in-transit"
+        aws_api: "elbv2:DescribeListeners, cloudfront:GetDistribution"
+        azure_api: "Microsoft.Network/applicationGateways"
+        gcp_api: "compute.googleapis.com/targetHttpsProxies"
+      - type: "fips_validation"
+        description: "FIPS 140-2/140-3 validation certificates for all crypto modules"
+        manual: true
+        notes: "Verify against CMVP database at csrc.nist.gov"
+      - type: "network_segmentation"
+        description: "Security group/firewall rules demonstrating boundary protection"
+        aws_api: "ec2:DescribeSecurityGroups, ec2:DescribeNetworkAcls"
+        azure_api: "Microsoft.Network/networkSecurityGroups"
+        gcp_api: "compute.googleapis.com/firewalls"
+
+  SI:  # System and Information Integrity
+    description: "Vulnerability scans, patch management, malware protection"
+    evidence_types:
+      - type: "vulnerability_scans"
+        description: "Most recent vulnerability scan results (OS, web, database, container)"
+        aws_api: "inspector2:ListFindings, securityhub:GetFindings"
+        azure_api: "Microsoft.Security/assessments"
+        gcp_api: "securitycenter.googleapis.com/findings"
+      - type: "patch_management"
+        description: "Patch management status and compliance"
+        aws_api: "ssm:DescribeInstancePatchStates"
+        azure_api: "Microsoft.Compute/virtualMachines/patchAssessmentResults"
+        gcp_api: "osconfig.googleapis.com/patchDeployments"
+
+  SR:  # Supply Chain Risk Management (new in Rev 5)
+    description: "Supply chain risk assessment, vendor management, SBOM"
+    evidence_types:
+      - type: "supply_chain_risk_plan"
+        description: "Supply chain risk management plan"
+        manual: true
+      - type: "vendor_assessment"
+        description: "Third-party vendor security assessment records"
+        manual: true
+      - type: "sbom"
+        description: "Software Bill of Materials for system components"
+        manual: true
+        notes: "Required format: CycloneDX or SPDX"

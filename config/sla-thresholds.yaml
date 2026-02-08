@@ -1,0 +1,43 @@
+# FedRAMP Vulnerability Remediation SLA Thresholds
+# Reference: FedRAMP Continuous Monitoring Performance Management Guide
+# These thresholds apply to all baselines unless overridden.
+
+remediation_slas:
+  high:
+    days: 30
+    description: "High-severity vulnerabilities must be remediated within 30 days of discovery"
+  moderate:
+    days: 90
+    description: "Moderate-severity vulnerabilities must be remediated within 90 days of discovery"
+  low:
+    days: 180
+    description: "Low-severity vulnerabilities must be remediated within 180 days of discovery"
+
+# FedRAMP escalation triggers
+# When these thresholds are breached, FedRAMP initiates a Detailed Finding Review (DFR)
+# or Corrective Action Plan (CAP)
+escalation_triggers:
+  detailed_finding_review:
+    - condition: "high_vulns_aged_over_30_days >= 5"
+      description: "5+ High vulnerabilities aged over 30 days triggers DFR"
+    - condition: "moderate_vulns_aged_over_90_days >= 10"
+      description: "10+ Moderate vulnerabilities aged over 90 days triggers DFR"
+    - condition: "unauthenticated_scan_percentage > 10"
+      description: "Unauthenticated scans exceeding 10% of total triggers DFR"
+
+  corrective_action_plan:
+    - condition: "high_vulns_aged_over_60_days >= 5"
+      description: "5+ High vulnerabilities aged over 60 days triggers CAP"
+    - condition: "moderate_vulns_aged_over_120_days >= 10"
+      description: "10+ Moderate vulnerabilities aged over 120 days triggers CAP"
+    - condition: "late_annual_assessment_sap"
+      description: "SAP submitted less than 60 days before anniversary triggers CAP"
+    - condition: "late_annual_assessment_package"
+      description: "Assessment package submitted after anniversary date triggers CAP"
+
+# Warning thresholds (internal alerts before hitting FedRAMP escalation)
+warning_thresholds:
+  high_vuln_age_warning_days: 20     # Alert at 20 days (10 days before SLA)
+  moderate_vuln_age_warning_days: 75  # Alert at 75 days (15 days before SLA)
+  low_vuln_age_warning_days: 160      # Alert at 160 days (20 days before SLA)
+  assessment_sap_warning_days: 90     # Alert 90 days before anniversary
